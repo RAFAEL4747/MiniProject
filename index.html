@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Chocolate Cake Recipe</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Segoe UI', sans-serif;
+    }
+
+    body {
+      background: #fbeee0;
+      color: #333;
+      padding: 20px;
+    }
+
+    .recipe-card {
+      max-width: 800px;
+      margin: auto;
+      background: #a27250;
+      padding: 20px;
+      border-radius: 15px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    }
+
+    .recipe-title {
+      text-align: center;
+      font-size: 2.5em;
+      margin-bottom: 10px;
+    }
+
+    .recipe-image {
+      width: 50%;
+      height: 50%;
+      
+    }
+
+    .info {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 20px;
+      font-weight: bold;
+    }
+
+    .section-toggle {
+      cursor: pointer;
+      color: white;
+      margin: 10px 0;
+      text-decoration: underline;
+    }
+
+    .ingredients, .steps {
+      margin-bottom: 20px;
+      display: none;
+    }
+
+    .ingredients li, .steps li {
+      margin: 5px 0;
+      transition: all 0.3s ease;
+    }
+
+    .ingredients li:hover, .steps li:hover {
+      color: #914d76;
+      transform: scale(1.02);
+    }
+
+    .progress-bar {
+      width: 100%;
+      background: #eee;
+      height: 10px;
+      border-radius: 5px;
+      margin-bottom: 20px;
+      overflow: hidden;
+    }
+
+    .progress {
+      height: 100%;
+      width: 0%;
+      background: #914d76;
+      transition: width 0.4s ease-in-out;
+    }
+
+    button {
+      background: #914d76;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 10px;
+      cursor: pointer;
+      margin-top: 10px;
+    }
+
+    button:hover {
+      background: #6e3959;
+    }
+
+    @media (max-width: 600px) {
+      .info {
+        flex-direction: column;
+        gap: 10px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="recipe-card">
+    <h1 class="recipe-title">Chocolate Cake</h1>
+    <img src="http://wildflourskitchen.com/wp-content/uploads/2015/05/chocolate-bday-cake.jpg" alt="Chocolate Cake" class="recipe-image">
+
+    <div class="info">
+      <div>Prep Time: 45 mins</div>
+      <div>Serves: 4</div>
+    </div>
+
+    <div class="progress-bar">
+      <div class="progress" id="progress"></div>
+    </div>
+
+    <div class="section-toggle" onclick="toggleSection('ingredients')">Show Ingredients</div>
+    <ul class="ingredients" id="ingredients">
+      <li>1 cup flour</li>
+      <li>1/2 cup cocoa powder</li>
+      <li>1 tsp baking soda</li>
+      <li>1/2 cup sugar</li>
+      <li>2 eggs</li>
+      <li>1/2 cup milk</li>
+      <li>1/4 cup oil</li>
+      <li>1 tsp vanilla extract</li>
+    </ul>
+
+    <div class="section-toggle" onclick="toggleSection('steps')">Show Steps</div>
+    <ol class="steps" id="steps">
+      <li>Preheat oven to 180°C (350°F).</li>
+      <li>Mix dry ingredients in a bowl.</li>
+      <li>Add wet ingredients and mix until smooth.</li>
+      <li>Pour into greased baking tin.</li>
+      <li>Bake for 30-35 mins.</li>
+      <li>Let it cool before serving.</li>
+    </ol>
+
+    <button onclick="startCooking()">Start Cooking</button>
+    <button onclick="nextStep()">Next Step</button>
+  </div>
+
+  <script>
+    let currentStep = 0;
+
+    function toggleSection(sectionId) {
+      const section = document.getElementById(sectionId);
+      section.style.display = section.style.display === 'block' ? 'none' : 'block';
+    }
+
+    function startCooking() {
+      currentStep = 0;
+      highlightStep(currentStep);
+      updateProgressBar();
+    }
+
+    function nextStep() {
+      const steps = document.querySelectorAll('.steps li');
+      if (currentStep < steps.length - 1) {
+        currentStep++;
+        highlightStep(currentStep);
+        updateProgressBar();
+      }
+    }
+
+    function highlightStep(index) {
+      const steps = document.querySelectorAll('.steps li');
+      steps.forEach((step, i) => {
+        step.style.background = i === index ? '#fde2f3' : 'transparent';
+      });
+    }
+
+    function updateProgressBar() {
+      const steps = document.querySelectorAll('.steps li').length;
+      const progress = document.getElementById('progress');
+      progress.style.width = `${((currentStep + 1) / steps) * 100}%`;
+    }
+  </script>
+</body>
+</html>
